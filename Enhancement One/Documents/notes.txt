@@ -1,0 +1,23 @@
+#get text from label
+#label_content = self.ui.delete_client_profile_header.text()
+
+##split string and get first element
+#x = label_content.split(" ")
+#self.id = x[0]
+
+
+
+selected_item = []
+        for i in list(items):
+                    selected_item.append(str(i.text()))
+
+
+
+
+
+
+https://www.plus2net.com/python/pandas-mysql.php
+
+
+#Python Data Structures
+https://www.tutorialspoint.com/python_data_structure/python_searching_algorithms.htm

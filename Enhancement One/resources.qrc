@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/compaylogo.png</file>
+  </qresource>
+  <qresource prefix="icons">
+    <file>icons/Juice_Icons_FREE_Pack/32x32/Briefcase.png</file>
+  </qresource>
+</RCC>

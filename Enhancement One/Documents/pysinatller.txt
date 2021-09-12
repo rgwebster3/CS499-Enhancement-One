@@ -1,0 +1,71 @@
+Installation Instructions:
+
+1. Open cmd and run as administrator
+2. Type pip install pyinstaller
+
+Create executable:
+
+Option 1: pyinstaller yourprogram.py  ** will also create a console window
+Option 2: pyinstaller -F yourprogram.py  ** -F creates a single exe file
+Option 3: pyinstaller -F --noconsole yourprogram.py  ** --noconsole skips creation of console window
+
+** If the exe opens then immediately close, run the exe as administrator in cmd shell. It will identify the issue
+** You will likely need to run pip3 install pandas as administrator from the cmd shell and rebuild the exe
+
+Command for this project:
+
+pyinstaller -F --noconsole Client_Management_App.py
+
+pyinstaller --noconsole Client_Management_App.py
+
+pyinstaller -F --noconsole --onefile --icon=briefcase_Duj_icon.ico --clean -n test3 Client_Management_App.py
+
+
+
+*****************************************************************
+
+Create .py file from .qrc resource file
+
+1. Open cmd and run as administrator
+2. Go to folder that has .qrc file. Suggest placing it in root where the other .py files are located
+3. Type and execute in command shell: pyrcc5 -o resources.py <name of your qrc file>.qrc
+4. Above will create the resoource.py file
+5. Add and replace import qrresources_rc with 
+
+	import resources
+
+6. ** If you change the images you need to re-create the resource.py file
+
+
+Command for this project:
+
+pyrcc5 -o resources.py qrresources.qrc
+
+
+*****************************************************************
+Auto py to exe
+
+
+https://pypi.org/project/auto-py-to-exe/
+
+auto-py-to-exe
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

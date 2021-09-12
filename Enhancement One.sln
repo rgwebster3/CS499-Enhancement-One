@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Enhancement One", "Enhancement One\Enhancement One.pyproj", "{B2CEE54A-C535-4337-80CB-9510D45A0D4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2CEE54A-C535-4337-80CB-9510D45A0D4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CEE54A-C535-4337-80CB-9510D45A0D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7BEB5DC-5DBF-4596-BE64-EAEB014532F7}
+	EndGlobalSection
+EndGlobal
