@@ -373,6 +373,10 @@ class MainApplication(QtWidgets.QMainWindow):
 
 class ManageClient(object):
 
+    def get_client_list(self):
+        pass
+        #FIXME
+
     def edit_client_list(self, id, first_name, last_name, selected_service):
 
         #update client in database
