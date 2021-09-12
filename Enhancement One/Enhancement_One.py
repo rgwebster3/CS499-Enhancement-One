@@ -25,8 +25,8 @@ from PyQt5.QtCore import QAbstractTableModel, Qt
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QDialog, QApplication, QTableView
 from application_windows import Ui_MainWindow
-from database_etl import *
-from database_create import *
+#from database_etl import *
+#from database_create import *
 
 class MainApplication(QtWidgets.QMainWindow): 
     
@@ -36,10 +36,25 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         #initialize variables
+        self._username = ""
+        self._key = "123"
+
         self.__rec_id = ""
         self.__first_name = ""
         self.__last_name = ""
         self.__selected_service = ""
+
+        self.__name1 = "Bob Jones";
+        self.__name2 = "Sarah Davis";
+        self.__name3 = "Amy Fristd::endly";
+        self.__name4 = "Johnny Smith";
+        self.__name5 = "Carol Spears";
+
+
+
+
+
+
 
         #set design attributes
         self.style = "::section {""background-color: #E0E0E0; }" #set bg color of table header
@@ -84,27 +99,19 @@ class MainApplication(QtWidgets.QMainWindow):
             self.ui.login_label_login_denied.setText("Punctuation not allowed in Username") #change text 
 
         else:
-
-            ##get pw from sql
-            obj_db = DBAuthenticate(self.form_login_username)
-            results = obj_db.authenticate()
-
-            if results == None:
-
+            
+            if self.form_login_username == "Username" or self.form_login_password == "Password":
                 #access denied
                 self.ui.login_label_login_denied.setHidden(False) #make label visible       
                 self.ui.login_label_login_denied.setText("Please enter Username and Password") #change text          
 
             else:
-                first_name= results[1]
-                last_name = results[2]
-                pw = results[4]
 
-                if  pw == self.form_login_password:
+                if  self._key == self.form_login_password:
                     #access granted
                     self.ui.login_label_login_denied.setHidden(True) #hide label
                     self.ui.label_welcome.setHidden(False) #unhide label
-                    self.ui.label_welcome.setText("Welcome " + first_name + " " + last_name) #change text
+                    self.ui.label_welcome.setText("Welcome ") #change text
 
                     #form navigation
                     self.__nav_main()        
@@ -113,6 +120,7 @@ class MainApplication(QtWidgets.QMainWindow):
                     #access denied
                     self.ui.login_label_login_denied.setHidden(False) #make label visible       
                     self.ui.login_label_login_denied.setText("Incorrect Username/Password") #change text
+
       
     def __form_main_menu_select(self):
 
