@@ -171,9 +171,12 @@ class MainApplication(QtWidgets.QMainWindow):
     def __update_client(self):
 
         #pass data to sql table
-        self.edit_client_list(self, self.id, self.__first_name, self.__last_name, self.__selected_service)
+        #self.edit_client_list(self, self.id, self.__first_name, self.__last_name, self.__selected_service)
+        self.edit_client_list()
         #FIXME
+        #get item details
 
+        
 
 
 
@@ -331,21 +334,34 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.client_list_delete_list.addItem(self.client_detail_5)
 
 
-    def edit_client_list(self, id, first_name, last_name, selected_service):
-        pass
+    def edit_client_list(self):
 
-        #FIXME
+        #get combo box item
+        self.combo_box_selected = self.ui.client_edit_profile_cmb_service.currentText()
 
+        #get currently selected item details
+        self.selected_details = self.ui.client_list_edit_list.currentItem().text()
+        self.selected_row = self.ui.client_list_edit_list.currentRow()
 
+        #update item in qwidgetlist
+        self.sel_items = self.ui.client_list_edit_list.selectedItems()
 
+        for item in self.sel_items:
+            item.setText(item.text().replace(self.__selected_service, self.combo_box_selected))
 
+        
+        # clear and copy all items to all list widgets
+        self.ui.list_client_list.clear()
 
+        for i in range(self.ui.client_list_edit_list.count()):
+            self.row_clone = self.ui.client_list_edit_list.item(i).clone()
+            self.ui.list_client_list.addItem(self.row_clone)
+  
+        self.ui.client_list_delete_list.clear()
 
-
-
-
-
-
+        for i in range(self.ui.client_list_edit_list.count()):
+            self.row_clone = self.ui.client_list_edit_list.item(i).clone()
+            self.ui.client_list_delete_list.addItem(self.row_clone)
 
 
 
