@@ -21,9 +21,9 @@ import pyodbc
 import pandas as pd
 
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QAbstractTableModel, Qt
+from PyQt5.QtCore import QAbstractTableModel, Qt, QCoreApplication
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QDialog, QApplication, QTableView
+from PyQt5.QtWidgets import QDialog, QApplication
 from application_windows import Ui_MainWindow
 #from database_etl import *
 #from database_create import *
@@ -44,24 +44,33 @@ class MainApplication(QtWidgets.QMainWindow):
         self.__last_name = ""
         self.__selected_service = ""
 
-        self.__name1 = "Bob Jones";
-        self.__name2 = "Sarah Davis";
-        self.__name3 = "Amy Fristd::endly";
-        self.__name4 = "Johnny Smith";
-        self.__name5 = "Carol Spears";
+        #client detail
+        self.__name1 = "Bob Jones"
+        self.__name2 = "Sarah Davis"
+        self.__name3 = "Amy Fristdendly"
+        self.__name4 = "Johnny Smith"
+        self.__name5 = "Carol Spears"
 
+        #client selected choice
+        self.__num1 = "Brokerage"
+        self.__num2 = "Retirement"
+        self.__num3 = "Brokerage"
+        self.__num4 = "Brokerage"
+        self.__num5 = "Retirement"
 
-
-
-
-
+        #client list load index
+        self.__client_list = 0
+        self.__client_edit = 0
+        self.__client_delete = 0
 
         #set design attributes
         self.style = "::section {""background-color: #E0E0E0; }" #set bg color of table header
 
         #set starting attributes
         self.ui.login_label_login_denied.setHidden(True)
-        self.ui.label_welcome.setHidden(True)      
+        self.ui.label_welcome.setHidden(True)
+        self.ui.client_list_delete_enter_id.setHidden(True)
+        self.ui.client_list_edit_enter_id.setHidden(True)
         self.ui.login_text_username.selectAll()
         self.ui.menu_list.setCurrentRow(0) 
 
@@ -114,7 +123,8 @@ class MainApplication(QtWidgets.QMainWindow):
                     self.ui.label_welcome.setText("Welcome ") #change text
 
                     #form navigation
-                    self.__nav_main()        
+                    self.__nav_main()
+                    self.get_client_list()
                 
                 else:
                     #access denied
@@ -160,53 +170,43 @@ class MainApplication(QtWidgets.QMainWindow):
  
     def __update_client(self):
 
-        #get text from label
-        self.id = self.ui.client_list_edit_enter_id.text()
-        self.__first_name = self.ui.client_edit_profile_first_name.text()
-        self.__last_name = self.ui.client_edit_profile_last_name.text()
-        self.__selected_service = self.ui.client_edit_profile_cmb_service.currentText()
-
         #pass data to sql table
-        ManageClient.edit_client_list(self, self.id, self.__first_name, self.__last_name, self.__selected_service)
+        self.edit_client_list(self, self.id, self.__first_name, self.__last_name, self.__selected_service)
+        #FIXME
+
+
+
 
         #form navigation
-        self.__nav_client_edit_profile() 
+        self.__nav_client_edit_profile()
 
     def __add_client(self):
 
         #get form input
         self.form_first_name = self.ui.add_client_text_first_name.text()
         self.form_last_name = self.ui.add_client_text_last_name.text()
-        self.form_selected_service = self.ui.add_client_cmb_service.currentText()       
+        self.form_selected_service = self.ui.add_client_cmb_service.currentText()      
+        
+        self.clear_list = 0
 
         if self.form_first_name != "First Name" and  self.form_last_name != 'Last Name':           
 
-            #pass data to sql table
-            ManageClient.add_client(self, self.form_first_name, self.form_last_name, self.form_selected_service)
+            #add to list
+            self.add_client(self.form_first_name, self.form_last_name, self.form_selected_service)
 
             #form navigation
             self.__nav_client_list()               
 
     def __delete_client(self):
 
-        #get text from label
-        self.id = self.ui.client_list_delete_enter_id.text()
+        #get selected row
+        self.selected_row = self.ui.client_list_delete_list.currentRow()
 
-        #input validation
-        obj_inputvalidation = InputValidation(self.id)
-        self.check_digit = obj_inputvalidation.check_has_digits()
+        #remove item from widget
+        self.delete_client(self.selected_row)
 
-        if self.check_digit == "True":
-
-            #pass data to sql table
-            ManageClient.delete_client(self, self.id)
-
-            #form navigation
-            self.__nav_client_delete()
-        else:
-            self.ui.client_list_delete_enter_id.setText("Enter ID")
-            self.ui.client_list_delete_enter_id.setFocus()
-            self.ui.client_list_delete_enter_id.selectAll()           
+        #form navigation
+        self.__nav_client_delete()   
                                  
     def __nav_login(self):
 
@@ -230,11 +230,6 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.add_client_text_last_name.setText('Last Name')
         self.ui.add_client_cmb_service.setCurrentIndex(0)
         self.ui.add_client_text_first_name.selectAll()
-
-        #get client list for table widget
-        widget_name = "client_list_list"
-        get_type = "all" #all or one client(s)
-        self.get_client_list(widget_name, get_type, id)
    
     def __nav_client_list_edit(self):
 
@@ -247,45 +242,42 @@ class MainApplication(QtWidgets.QMainWindow):
 
         self.ui.client_edit_profile_first_name.setText("First Name")
         self.ui.client_edit_profile_last_name.setText("Last Name")
-        self.ui.client_edit_profile_cmb_service.setCurrentIndex(0)   
-        
-        #get client list for table widget
-        widget_name = "client_list_edit_list"
-        get_type = "all" #all or one client(s)
-        self.get_client_list(widget_name, get_type, id)
+        self.ui.client_edit_profile_cmb_service.setCurrentIndex(0)          
+
 
     def __nav_client_edit_profile(self):
 
-        #get client id
-        id = self.ui.client_list_edit_enter_id.text()
+        #get currently selected item details
+        self.selected_details = self.ui.client_list_edit_list.currentItem().text()
+        self.selected_row = self.ui.client_list_edit_list.currentRow()
 
-        #input validation
-        obj_inputvalidation = InputValidation(id)
-        self.check_digit = obj_inputvalidation.check_has_digits()
+        #split string and get first element
+        x =  self.selected_details.split(" ")
+        self.__rec_id = x[0]
+        self.__first_name = x[1]
+        self.__last_name = x[2]
+        self.__selected_service = x[5]
 
-        if self.check_digit == "True":
+        #iniialize form
+        self.ui.stackedWidget.setCurrentWidget(self.ui.client_edit_profile)
 
-            #iniialize form
-            self.ui.stackedWidget.setCurrentWidget(self.ui.client_edit_profile)
+        #set text
+        self.ui.client_edit_profile_first_name.setText(self.__first_name)
+        self.ui.client_edit_profile_last_name.setText(self.__last_name)
 
-            #get client list for table widget
-            widget_name = "client_edit_profile_list"
-            get_type = "one" #all or one client(s)
-            self.get_client_list(widget_name, get_type, id)
+        if self.__selected_service == "Brokerage":
+            self.ui.client_edit_profile_cmb_service.setCurrentIndex(0)
+        elif self.__selected_service == "Retirement":
+            self.ui.client_edit_profile_cmb_service.setCurrentIndex(1)
 
-            #set text
-            self.ui.client_edit_profile_first_name.setText(self.__first_name)
-            self.ui.client_edit_profile_last_name.setText(self.__last_name)
+        #add client to qlistwidget
+        self.ui.client_edit_profile_list.clear()
+        self.client_detail = str(self.__rec_id) + " " + self.__first_name + " " + self.__last_name + " selected option " +  self.__selected_service
 
-            if self.__selected_service == "Brokerage":
-                self.ui.client_edit_profile_cmb_service.setCurrentIndex(0)
-            elif self.__selected_service == "Retirement":
-                self.ui.client_edit_profile_cmb_service.setCurrentIndex(1)
+        #add to list qwidget
+        self.ui.client_edit_profile_list.addItem(self.client_detail)
 
-        else:
-            self.ui.client_list_edit_enter_id.setText("Enter ID")
-            self.ui.client_list_edit_enter_id.selectAll()
-            self.ui.client_list_edit_enter_id.setFocus()
+
 
     def __nav_add_client(self):
 
@@ -305,95 +297,82 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.client_list_delete_enter_id.setFocus()
         self.ui.client_list_delete_enter_id.selectAll()
 
-     #get client list for table widget
-        widget_name = "client_list_delete_list"
-        get_type = "all" #all or one client(s)
-        self.get_client_list(widget_name, get_type, id)
-
     def __nav_delete_client_profile(self):
 
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.__delete_client_profile)
 
-    def get_client_list(self, widget_name, get_type, client_id):
-
-        self.client_id = client_id
-
-        if get_type == "all":
-
-            #get client list
-            obj_1 = DBGetAllClients()
-            self.clients = obj_1.get_all_clients()
-            df = pd.DataFrame(self.clients)
-            model = pandasModel(df)
-
-            set_model = "self.ui." + widget_name + ".setModel(model)"
-            exec(set_model)
-
-        elif get_type == "one": 
-
-            #get client list
-            obj_2 = DBGetSingleClient(self.client_id)
-            self.client = obj_2.get_single_client()
-            df = pd.DataFrame(self.client)
-            model = pandasModel(df)
-
-            set_model = "self.ui." + widget_name + ".setModel(model)"
-            exec(set_model)
-
-            #get values from data frame
-            self.__rec_id = str(df.iloc[0][0])
-            self.__first_name = str(df.iloc[0][1])
-            self.__last_name = str(df.iloc[0][2])
-            self.__selected_service = str(df.iloc[0][3])
-
-        #disable widget select ability
-        disable_select_1 = "self.ui." + widget_name + ".setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)"
-        disable_select_2 = "self.ui." + widget_name + ".setFocusPolicy(Qt.NoFocus)"
-        disable_select_3 = "self.ui." + widget_name + ".setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)"
-        exec(disable_select_1), exec(disable_select_2), exec(disable_select_3)
-
-        #set column widths
-        col_width_1 = "self.ui." + widget_name + ".horizontalHeader()"
-        col_width_2 = "self.ui." + widget_name + ".horizontalHeader().resizeSection(0, 25)"
-        col_width_3 = "self.ui." + widget_name + ".horizontalHeader().resizeSection(1, 220)"
-        col_width_4 = "self.ui." + widget_name + ".horizontalHeader().resizeSection(2, 220)"
-        col_width_5 = "self.ui." + widget_name + ".horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)"
-        col_width_6 = "self.ui." + widget_name + ".horizontalHeader().setDefaultAlignment(Qt.AlignLeft)"
-        exec(col_width_1), exec(col_width_2), exec(col_width_3), exec(col_width_4), exec(col_width_5), exec(col_width_6)
-
-        #reset vertical scroll to top
-        reset_scroll = "self.ui." + widget_name + ".scrollTo(self.ui." + widget_name + ".model().index(0, 0))"        
-        exec(reset_scroll)
-
-        #set header bg color
-        header_color = "self.ui." + widget_name + ".horizontalHeader().setStyleSheet(self.style)"
-        exec(header_color)  
-
-
-class ManageClient(object):
-
     def get_client_list(self):
-        pass
-        #FIXME
+
+        #build client details
+        self.client_detail_1 = "1. " + self.__name1 + " selected option " + str(self.__num1)
+        self.client_detail_2 = "2. " + self.__name2 + " selected option " + str(self.__num2)
+        self.client_detail_3 = "3. " + self.__name3 + " selected option " + str(self.__num3)
+        self.client_detail_4 = "4. " + self.__name4 + " selected option " + str(self.__num4)
+        self.client_detail_5 = "5. " + self.__name5 + " selected option " + str(self.__num5)
+
+        #add to list qwidgets
+        self.ui.list_client_list.addItem(self.client_detail_1)
+        self.ui.list_client_list.addItem(self.client_detail_2)
+        self.ui.list_client_list.addItem(self.client_detail_3)
+        self.ui.list_client_list.addItem(self.client_detail_4)
+        self.ui.list_client_list.addItem(self.client_detail_5)
+
+        self.ui.client_list_edit_list.addItem(self.client_detail_1)
+        self.ui.client_list_edit_list.addItem(self.client_detail_2)
+        self.ui.client_list_edit_list.addItem(self.client_detail_3)
+        self.ui.client_list_edit_list.addItem(self.client_detail_4)
+        self.ui.client_list_edit_list.addItem(self.client_detail_5)
+
+        self.ui.client_list_delete_list.addItem(self.client_detail_1)
+        self.ui.client_list_delete_list.addItem(self.client_detail_2)
+        self.ui.client_list_delete_list.addItem(self.client_detail_3)
+        self.ui.client_list_delete_list.addItem(self.client_detail_4)
+        self.ui.client_list_delete_list.addItem(self.client_detail_5)
+
 
     def edit_client_list(self, id, first_name, last_name, selected_service):
+        pass
 
-        #update client in database
-        obj_1 = DBUpdateSingleClient(id, first_name, last_name, selected_service)
-        obj_1.update_single_client()
+        #FIXME
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def add_client(self, form_first_name, form_last_name, form_selected_service):
 
-        #add client in database      
-        obj_1 = DBAddSingleClient(form_first_name, form_last_name, form_selected_service)
-        obj_1.add_single_client()
+        #get count in list 
+        next_num = self.ui.list_client_list.count() + 1
+        
+        #build client detail to list widgets
+        self.client_detail = str(next_num) + ". " + form_first_name + " " + form_last_name + " selected option " + form_selected_service
 
-    def delete_client(self, client_id):
+        #add to list qwidget
+        self.ui.list_client_list.addItem(self.client_detail)
+        self.ui.client_list_edit_list.addItem(self.client_detail)
+        self.ui.client_list_delete_list.addItem(self.client_detail)
 
-        #delete client in database
-        obj_1 = DBDeleteSingleClient(client_id)
-        obj_1.delete_single_client()
+
+    def delete_client(self, selected_row):
+
+        self.selected_row = selected_row        
+
+        self.ui.list_client_list.takeItem(int(self.selected_row))
+        self.ui.client_list_edit_list.takeItem(int(self.selected_row))
+        self.ui.client_list_delete_list.takeItem(int(self.selected_row))
+
+
+
 
 
 class pandasModel(QAbstractTableModel):

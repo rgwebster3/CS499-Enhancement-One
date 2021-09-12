@@ -769,21 +769,6 @@ color: white</string>
      </widget>
     </widget>
     <widget class="QWidget" name="client_list">
-     <widget class="QListWidget" name="list_client_list">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>150</y>
-        <width>321</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font-size:14px;
-background-color: white;
-color: black;</string>
-      </property>
-     </widget>
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
@@ -1045,14 +1030,19 @@ color: white</string>
         <string>Main</string>
        </property>
       </widget>
-      <widget class="QTableView" name="client_list_list">
+      <widget class="QListWidget" name="list_client_list">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>81</y>
-         <width>671</width>
+         <x>30</x>
+         <y>80</y>
+         <width>661</width>
          <height>231</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:14px;
+background-color: white;
+color: black;</string>
        </property>
       </widget>
      </widget>
@@ -1540,16 +1530,6 @@ color: white</string>
         <string>Edit</string>
        </property>
       </widget>
-      <widget class="QTableView" name="client_list_edit_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>81</y>
-         <width>671</width>
-         <height>231</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="client_list_edit_enter_id">
        <property name="geometry">
         <rect>
@@ -1570,6 +1550,21 @@ color: black;</string>
        </property>
        <property name="text">
         <string>Enter ID</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="client_list_edit_list">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>671</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:14px;
+background-color: white;
+color: black;</string>
        </property>
       </widget>
      </widget>
@@ -2057,16 +2052,6 @@ color: white</string>
         <string>Back</string>
        </property>
       </widget>
-      <widget class="QTableView" name="client_edit_profile_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>80</y>
-         <width>671</width>
-         <height>71</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="client_edit_profile_first_name">
        <property name="geometry">
         <rect>
@@ -2140,6 +2125,21 @@ color: black;</string>
          <string>Retirement</string>
         </property>
        </item>
+      </widget>
+      <widget class="QListWidget" name="client_edit_profile_list">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>671</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:14px;
+background-color: white;
+color: black;</string>
+       </property>
       </widget>
      </widget>
     </widget>
@@ -3185,16 +3185,6 @@ color: white</string>
         <string>Delete</string>
        </property>
       </widget>
-      <widget class="QTableView" name="client_list_delete_list">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>81</y>
-         <width>671</width>
-         <height>231</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="client_list_delete_enter_id">
        <property name="geometry">
         <rect>
@@ -3215,6 +3205,21 @@ color: black;</string>
        </property>
        <property name="text">
         <string>Enter ID</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="client_list_delete_list">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>671</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size:14px;
+background-color: white;
+color: black;</string>
        </property>
       </widget>
      </widget>

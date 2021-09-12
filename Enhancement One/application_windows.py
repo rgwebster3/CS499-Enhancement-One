@@ -213,12 +213,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.main)
         self.client_list = QWidget()
         self.client_list.setObjectName(u"client_list")
-        self.list_client_list = QListWidget(self.client_list)
-        self.list_client_list.setObjectName(u"list_client_list")
-        self.list_client_list.setGeometry(QRect(50, 150, 321, 191))
-        self.list_client_list.setStyleSheet(u"font-size:14px;\n"
-"background-color: white;\n"
-"color: black;")
         self.frame = QFrame(self.client_list)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(20, 30, 711, 391))
@@ -274,9 +268,12 @@ class Ui_MainWindow(object):
         self.client_list_btn_main.setFont(font)
         self.client_list_btn_main.setStyleSheet(u"background-color: #033E63;\n"
 "color: white")
-        self.client_list_list = QTableView(self.frame)
-        self.client_list_list.setObjectName(u"client_list_list")
-        self.client_list_list.setGeometry(QRect(20, 81, 671, 231))
+        self.list_client_list = QListWidget(self.frame)
+        self.list_client_list.setObjectName(u"list_client_list")
+        self.list_client_list.setGeometry(QRect(30, 80, 661, 231))
+        self.list_client_list.setStyleSheet(u"font-size:14px;\n"
+"background-color: white;\n"
+"color: black;")
         self.stackedWidget.addWidget(self.client_list)
         self.client_list_edit = QWidget()
         self.client_list_edit.setObjectName(u"client_list_edit")
@@ -376,14 +373,17 @@ class Ui_MainWindow(object):
         self.client_list_edit_btn_edit.setFont(font)
         self.client_list_edit_btn_edit.setStyleSheet(u"background-color: #033E63;\n"
 "color: white")
-        self.client_list_edit_list = QTableView(self.frame_2)
-        self.client_list_edit_list.setObjectName(u"client_list_edit_list")
-        self.client_list_edit_list.setGeometry(QRect(20, 81, 671, 231))
         self.client_list_edit_enter_id = QLineEdit(self.frame_2)
         self.client_list_edit_enter_id.setObjectName(u"client_list_edit_enter_id")
         self.client_list_edit_enter_id.setGeometry(QRect(220, 330, 91, 41))
         self.client_list_edit_enter_id.setFont(font)
         self.client_list_edit_enter_id.setStyleSheet(u"background-color: white;\n"
+"color: black;")
+        self.client_list_edit_list = QListWidget(self.frame_2)
+        self.client_list_edit_list.setObjectName(u"client_list_edit_list")
+        self.client_list_edit_list.setGeometry(QRect(20, 80, 671, 231))
+        self.client_list_edit_list.setStyleSheet(u"font-size:14px;\n"
+"background-color: white;\n"
 "color: black;")
         self.stackedWidget.addWidget(self.client_list_edit)
         self.client_edit_profile = QWidget()
@@ -484,9 +484,6 @@ class Ui_MainWindow(object):
         self.client_edit_profile_btn_cancel.setFont(font)
         self.client_edit_profile_btn_cancel.setStyleSheet(u"background-color: #033E63;\n"
 "color: white")
-        self.client_edit_profile_list = QTableView(self.frame_3)
-        self.client_edit_profile_list.setObjectName(u"client_edit_profile_list")
-        self.client_edit_profile_list.setGeometry(QRect(20, 80, 671, 71))
         self.client_edit_profile_first_name = QLineEdit(self.frame_3)
         self.client_edit_profile_first_name.setObjectName(u"client_edit_profile_first_name")
         self.client_edit_profile_first_name.setGeometry(QRect(320, 170, 371, 41))
@@ -507,6 +504,12 @@ class Ui_MainWindow(object):
         font1 = QFont()
         self.client_edit_profile_cmb_service.setFont(font1)
         self.client_edit_profile_cmb_service.setStyleSheet(u"font-size: 16px;\n"
+"background-color: white;\n"
+"color: black;")
+        self.client_edit_profile_list = QListWidget(self.frame_3)
+        self.client_edit_profile_list.setObjectName(u"client_edit_profile_list")
+        self.client_edit_profile_list.setGeometry(QRect(20, 80, 671, 71))
+        self.client_edit_profile_list.setStyleSheet(u"font-size:14px;\n"
 "background-color: white;\n"
 "color: black;")
         self.stackedWidget.addWidget(self.client_edit_profile)
@@ -728,14 +731,17 @@ class Ui_MainWindow(object):
         self.client_list_delete_btn_delete.setFont(font)
         self.client_list_delete_btn_delete.setStyleSheet(u"background-color: #033E63;\n"
 "color: white")
-        self.client_list_delete_list = QTableView(self.frame_7)
-        self.client_list_delete_list.setObjectName(u"client_list_delete_list")
-        self.client_list_delete_list.setGeometry(QRect(20, 81, 671, 231))
         self.client_list_delete_enter_id = QLineEdit(self.frame_7)
         self.client_list_delete_enter_id.setObjectName(u"client_list_delete_enter_id")
         self.client_list_delete_enter_id.setGeometry(QRect(220, 330, 91, 41))
         self.client_list_delete_enter_id.setFont(font)
         self.client_list_delete_enter_id.setStyleSheet(u"background-color: white;\n"
+"color: black;")
+        self.client_list_delete_list = QListWidget(self.frame_7)
+        self.client_list_delete_list.setObjectName(u"client_list_delete_list")
+        self.client_list_delete_list.setGeometry(QRect(20, 80, 671, 231))
+        self.client_list_delete_list.setStyleSheet(u"font-size:14px;\n"
+"background-color: white;\n"
 "color: black;")
         self.stackedWidget.addWidget(self.client_delete)
         self.delete_client_profile = QWidget()
@@ -824,3 +830,4 @@ class Ui_MainWindow(object):
         self.client_list_delete_enter_id.setText(QCoreApplication.translate("MainWindow", u"Enter ID", None))
         self.label_welcome.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
     # retranslateUi
+
