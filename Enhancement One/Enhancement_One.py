@@ -63,9 +63,6 @@ class MainApplication(QtWidgets.QMainWindow):
         self.__client_edit = 0
         self.__client_delete = 0
 
-        #set design attributes
-        self.style = "::section {""background-color: #E0E0E0; }" #set bg color of table header
-
         #set starting attributes
         self.ui.login_label_login_denied.setHidden(True)
         self.ui.label_welcome.setHidden(True)
@@ -102,20 +99,17 @@ class MainApplication(QtWidgets.QMainWindow):
         obj_inputvalidation = InputValidation(self.form_login_username)
         self.check_punctuation = obj_inputvalidation.check_has_punctuation()
 
-        if self.check_punctuation == "True":
-            
+        if self.check_punctuation == "True":            
             self.ui.login_label_login_denied.setHidden(False) #make label visible       
             self.ui.login_label_login_denied.setText("Punctuation not allowed in Username") #change text 
 
-        else:
-            
+        else:            
             if self.form_login_username == "Username" or self.form_login_password == "Password":
                 #access denied
                 self.ui.login_label_login_denied.setHidden(False) #make label visible       
                 self.ui.login_label_login_denied.setText("Please enter Username and Password") #change text          
 
             else:
-
                 if  self._key == self.form_login_password:
                     #access granted
                     self.ui.login_label_login_denied.setHidden(True) #hide label
@@ -133,7 +127,6 @@ class MainApplication(QtWidgets.QMainWindow):
 
       
     def __form_main_menu_select(self):
-
         #get value from list widget
         self.form_list_select = self.ui.menu_list.currentItem().text()
 
@@ -169,22 +162,13 @@ class MainApplication(QtWidgets.QMainWindow):
             pass
  
     def __update_client(self):
-
-        #pass data to sql table
-        #self.edit_client_list(self, self.id, self.__first_name, self.__last_name, self.__selected_service)
+        #prepare data and qlist widget on edit profile before calling to open
         self.edit_client_list()
-        #FIXME
-        #get item details
-
-        
-
-
 
         #form navigation
         self.__nav_client_edit_profile()
 
     def __add_client(self):
-
         #get form input
         self.form_first_name = self.ui.add_client_text_first_name.text()
         self.form_last_name = self.ui.add_client_text_last_name.text()
@@ -192,8 +176,7 @@ class MainApplication(QtWidgets.QMainWindow):
         
         self.clear_list = 0
 
-        if self.form_first_name != "First Name" and  self.form_last_name != 'Last Name':           
-
+        if self.form_first_name != "First Name" and  self.form_last_name != 'Last Name':       
             #add to list
             self.add_client(self.form_first_name, self.form_last_name, self.form_selected_service)
 
@@ -201,7 +184,6 @@ class MainApplication(QtWidgets.QMainWindow):
             self.__nav_client_list()               
 
     def __delete_client(self):
-
         #get selected row
         self.selected_row = self.ui.client_list_delete_list.currentRow()
 
@@ -212,19 +194,16 @@ class MainApplication(QtWidgets.QMainWindow):
         self.__nav_client_delete()   
                                  
     def __nav_login(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.login)
 
     def __nav_main(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.main)  
         
         self.ui.menu_list.setCurrentRow(0) #set to default
 
     def __nav_client_list(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.client_list)
 
@@ -235,7 +214,6 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.add_client_text_first_name.selectAll()
    
     def __nav_client_list_edit(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.client_list_edit)
 
@@ -247,9 +225,7 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.client_edit_profile_last_name.setText("Last Name")
         self.ui.client_edit_profile_cmb_service.setCurrentIndex(0)          
 
-
     def __nav_client_edit_profile(self):
-
         #get currently selected item details
         self.selected_details = self.ui.client_list_edit_list.currentItem().text()
         self.selected_row = self.ui.client_list_edit_list.currentRow()
@@ -280,10 +256,7 @@ class MainApplication(QtWidgets.QMainWindow):
         #add to list qwidget
         self.ui.client_edit_profile_list.addItem(self.client_detail)
 
-
-
     def __nav_add_client(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.add_client)
 
@@ -292,7 +265,6 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.add_client_text_first_name.setFocus()
 
     def __nav_client_delete(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.client_delete)
 
@@ -301,12 +273,10 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.client_list_delete_enter_id.selectAll()
 
     def __nav_delete_client_profile(self):
-
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.__delete_client_profile)
 
     def get_client_list(self):
-
         #build client details
         self.client_detail_1 = "1. " + self.__name1 + " selected option " + str(self.__num1)
         self.client_detail_2 = "2. " + self.__name2 + " selected option " + str(self.__num2)
@@ -314,28 +284,23 @@ class MainApplication(QtWidgets.QMainWindow):
         self.client_detail_4 = "4. " + self.__name4 + " selected option " + str(self.__num4)
         self.client_detail_5 = "5. " + self.__name5 + " selected option " + str(self.__num5)
 
-        #add to list qwidgets
+        #add to list qwidget
         self.ui.list_client_list.addItem(self.client_detail_1)
         self.ui.list_client_list.addItem(self.client_detail_2)
         self.ui.list_client_list.addItem(self.client_detail_3)
         self.ui.list_client_list.addItem(self.client_detail_4)
         self.ui.list_client_list.addItem(self.client_detail_5)
 
-        self.ui.client_list_edit_list.addItem(self.client_detail_1)
-        self.ui.client_list_edit_list.addItem(self.client_detail_2)
-        self.ui.client_list_edit_list.addItem(self.client_detail_3)
-        self.ui.client_list_edit_list.addItem(self.client_detail_4)
-        self.ui.client_list_edit_list.addItem(self.client_detail_5)
+        #clone to other list widgets
+        for i in range(self.ui.list_client_list.count()):
+            self.row_clone = self.ui.list_client_list.item(i).clone()
+            self.ui.client_list_edit_list.addItem(self.row_clone)
 
-        self.ui.client_list_delete_list.addItem(self.client_detail_1)
-        self.ui.client_list_delete_list.addItem(self.client_detail_2)
-        self.ui.client_list_delete_list.addItem(self.client_detail_3)
-        self.ui.client_list_delete_list.addItem(self.client_detail_4)
-        self.ui.client_list_delete_list.addItem(self.client_detail_5)
-
+        for i in range(self.ui.list_client_list.count()):
+            self.row_clone = self.ui.list_client_list.item(i).clone()
+            self.ui.client_list_delete_list.addItem(self.row_clone)
 
     def edit_client_list(self):
-
         #get combo box item
         self.combo_box_selected = self.ui.client_edit_profile_cmb_service.currentText()
 
@@ -348,7 +313,6 @@ class MainApplication(QtWidgets.QMainWindow):
 
         for item in self.sel_items:
             item.setText(item.text().replace(self.__selected_service, self.combo_box_selected))
-
         
         # clear and copy all items to all list widgets
         self.ui.list_client_list.clear()
@@ -363,10 +327,7 @@ class MainApplication(QtWidgets.QMainWindow):
             self.row_clone = self.ui.client_list_edit_list.item(i).clone()
             self.ui.client_list_delete_list.addItem(self.row_clone)
 
-
-
     def add_client(self, form_first_name, form_last_name, form_selected_service):
-
         #get count in list 
         next_num = self.ui.list_client_list.count() + 1
         
@@ -378,17 +339,13 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.client_list_edit_list.addItem(self.client_detail)
         self.ui.client_list_delete_list.addItem(self.client_detail)
 
-
     def delete_client(self, selected_row):
-
+        #get selected row
         self.selected_row = selected_row        
 
         self.ui.list_client_list.takeItem(int(self.selected_row))
         self.ui.client_list_edit_list.takeItem(int(self.selected_row))
         self.ui.client_list_delete_list.takeItem(int(self.selected_row))
-
-
-
 
 
 class pandasModel(QAbstractTableModel):
