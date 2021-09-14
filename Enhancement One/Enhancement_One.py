@@ -3,7 +3,7 @@
 #******************************************************************
 # Author: Robert Webster
 # Program: Client Management App
-# Date: 09/01/2021
+# Date: 09/12/2021
 # 
 # Comments: 
 #
@@ -92,29 +92,29 @@ class MainApplication(QtWidgets.QMainWindow):
 
     def __authenticate(self):        
         #get values of username and password
-        self.form_login_username = self.ui.login_text_username.text()
-        self.form_login_password = self.ui.login_text_password.text()
+        self.__form_login_username = self.ui.login_text_username.text()
+        self.__form_login_password = self.ui.login_text_password.text()
 
         #input validation
-        obj_inputvalidation = InputValidation(self.form_login_username)
-        self.check_punctuation = obj_inputvalidation.check_has_punctuation()
+        obj_inputvalidation = InputValidation(self.__form_login_username)
+        self.__check_punctuation = obj_inputvalidation.check_has_punctuation()
 
-        if self.check_punctuation == "True":            
+        if self.__check_punctuation == "True":            
             self.ui.login_label_login_denied.setHidden(False) #make label visible       
             self.ui.login_label_login_denied.setText("Punctuation not allowed in Username") #change text 
 
         else:            
-            if self.form_login_username == "Username" or self.form_login_password == "Password":
+            if self.__form_login_username == "Username" or self.__form_login_password == "Password":
                 #access denied
                 self.ui.login_label_login_denied.setHidden(False) #make label visible       
                 self.ui.login_label_login_denied.setText("Please enter Username and Password") #change text          
 
             else:
-                if  self._key == self.form_login_password:
+                if  self._key == self.__form_login_password:
                     #access granted
                     self.ui.login_label_login_denied.setHidden(True) #hide label
                     self.ui.label_welcome.setHidden(False) #unhide label
-                    self.ui.label_welcome.setText("Welcome ") #change text
+                    self.ui.label_welcome.setText("Welcome " + self.__form_login_username) #change text
 
                     #form navigation
                     self.__nav_main()
@@ -131,13 +131,13 @@ class MainApplication(QtWidgets.QMainWindow):
         self.form_list_select = self.ui.menu_list.currentItem().text()
 
         #check to see if an item is selected
-        items = self.ui.menu_list.selectedItems()
-        selected_item = []
+        self.__items = self.ui.menu_list.selectedItems()
+        self.__selected_item = []
 
-        for i in list(items):
-                    selected_item.append(str(i.text()))
+        for i in list(self.__items):
+                    self.__selected_item.append(str(i.text()))
 
-        if selected_item: #boolean if not empty
+        if self.__selected_item: #boolean if not empty
 
             #execute based on menu selection
             if self.form_list_select == "DISPLAY client list":
@@ -185,10 +185,10 @@ class MainApplication(QtWidgets.QMainWindow):
 
     def __delete_client(self):
         #get selected row
-        self.selected_row = self.ui.client_list_delete_list.currentRow()
+        self.__selected_row = self.ui.client_list_delete_list.currentRow()
 
         #remove item from widget
-        self.delete_client(self.selected_row)
+        self.delete_client(self.__selected_row)
 
         #form navigation
         self.__nav_client_delete()   
@@ -201,7 +201,8 @@ class MainApplication(QtWidgets.QMainWindow):
         #iniialize form
         self.ui.stackedWidget.setCurrentWidget(self.ui.main)  
         
-        self.ui.menu_list.setCurrentRow(0) #set to default
+        #set to default
+        self.ui.menu_list.setCurrentRow(0) 
 
     def __nav_client_list(self):
         #iniialize form
@@ -227,11 +228,11 @@ class MainApplication(QtWidgets.QMainWindow):
 
     def __nav_client_edit_profile(self):
         #get currently selected item details
-        self.selected_details = self.ui.client_list_edit_list.currentItem().text()
-        self.selected_row = self.ui.client_list_edit_list.currentRow()
+        self.__selected_details = self.ui.client_list_edit_list.currentItem().text()
+        self.__selected_row = self.ui.client_list_edit_list.currentRow()
 
         #split string and get first element
-        x =  self.selected_details.split(" ")
+        x =  self.__selected_details.split(" ")
         self.__rec_id = x[0]
         self.__first_name = x[1]
         self.__last_name = x[2]
@@ -251,10 +252,10 @@ class MainApplication(QtWidgets.QMainWindow):
 
         #add client to qlistwidget
         self.ui.client_edit_profile_list.clear()
-        self.client_detail = str(self.__rec_id) + " " + self.__first_name + " " + self.__last_name + " selected option " +  self.__selected_service
+        self.__client_detail = str(self.__rec_id) + " " + self.__first_name + " " + self.__last_name + " selected option " +  self.__selected_service
 
         #add to list qwidget
-        self.ui.client_edit_profile_list.addItem(self.client_detail)
+        self.ui.client_edit_profile_list.addItem(self.__client_detail)
 
     def __nav_add_client(self):
         #iniialize form
@@ -278,74 +279,74 @@ class MainApplication(QtWidgets.QMainWindow):
 
     def get_client_list(self):
         #build client details
-        self.client_detail_1 = "1. " + self.__name1 + " selected option " + str(self.__num1)
-        self.client_detail_2 = "2. " + self.__name2 + " selected option " + str(self.__num2)
-        self.client_detail_3 = "3. " + self.__name3 + " selected option " + str(self.__num3)
-        self.client_detail_4 = "4. " + self.__name4 + " selected option " + str(self.__num4)
-        self.client_detail_5 = "5. " + self.__name5 + " selected option " + str(self.__num5)
+        self.__client_detail_1 = "1. " + self.__name1 + " selected option " + str(self.__num1)
+        self.__client_detail_2 = "2. " + self.__name2 + " selected option " + str(self.__num2)
+        self.__client_detail_3 = "3. " + self.__name3 + " selected option " + str(self.__num3)
+        self.__client_detail_4 = "4. " + self.__name4 + " selected option " + str(self.__num4)
+        self.__client_detail_5 = "5. " + self.__name5 + " selected option " + str(self.__num5)
 
         #add to list qwidget
-        self.ui.list_client_list.addItem(self.client_detail_1)
-        self.ui.list_client_list.addItem(self.client_detail_2)
-        self.ui.list_client_list.addItem(self.client_detail_3)
-        self.ui.list_client_list.addItem(self.client_detail_4)
-        self.ui.list_client_list.addItem(self.client_detail_5)
+        self.ui.list_client_list.addItem(self.__client_detail_1)
+        self.ui.list_client_list.addItem(self.__client_detail_2)
+        self.ui.list_client_list.addItem(self.__client_detail_3)
+        self.ui.list_client_list.addItem(self.__client_detail_4)
+        self.ui.list_client_list.addItem(self.__client_detail_5)
 
         #clone to other list widgets
         for i in range(self.ui.list_client_list.count()):
-            self.row_clone = self.ui.list_client_list.item(i).clone()
-            self.ui.client_list_edit_list.addItem(self.row_clone)
+            self.__row_clone = self.ui.list_client_list.item(i).clone()
+            self.ui.client_list_edit_list.addItem(self.__row_clone)
 
         for i in range(self.ui.list_client_list.count()):
-            self.row_clone = self.ui.list_client_list.item(i).clone()
-            self.ui.client_list_delete_list.addItem(self.row_clone)
+            self.__row_clone = self.ui.list_client_list.item(i).clone()
+            self.ui.client_list_delete_list.addItem(self.__row_clone)
 
     def edit_client_list(self):
         #get combo box item
-        self.combo_box_selected = self.ui.client_edit_profile_cmb_service.currentText()
+        self.__combo_box_selected = self.ui.client_edit_profile_cmb_service.currentText()
 
         #get currently selected item details
-        self.selected_details = self.ui.client_list_edit_list.currentItem().text()
-        self.selected_row = self.ui.client_list_edit_list.currentRow()
+        self.__selected_details = self.ui.client_list_edit_list.currentItem().text()
+        self.__selected_row = self.ui.client_list_edit_list.currentRow()
 
         #update item in qwidgetlist
-        self.sel_items = self.ui.client_list_edit_list.selectedItems()
+        self.__sel_items = self.ui.client_list_edit_list.selectedItems()
 
-        for item in self.sel_items:
-            item.setText(item.text().replace(self.__selected_service, self.combo_box_selected))
+        for item in self.__sel_items:
+            item.setText(item.text().replace(self.__selected_service, self.__combo_box_selected))
         
         # clear and copy all items to all list widgets
         self.ui.list_client_list.clear()
 
         for i in range(self.ui.client_list_edit_list.count()):
-            self.row_clone = self.ui.client_list_edit_list.item(i).clone()
-            self.ui.list_client_list.addItem(self.row_clone)
+            self.__row_clone = self.ui.client_list_edit_list.item(i).clone()
+            self.ui.list_client_list.addItem(self.__row_clone)
   
         self.ui.client_list_delete_list.clear()
 
         for i in range(self.ui.client_list_edit_list.count()):
-            self.row_clone = self.ui.client_list_edit_list.item(i).clone()
-            self.ui.client_list_delete_list.addItem(self.row_clone)
+            self.__row_clone = self.ui.client_list_edit_list.item(i).clone()
+            self.ui.client_list_delete_list.addItem(self.__row_clone)
 
     def add_client(self, form_first_name, form_last_name, form_selected_service):
         #get count in list 
-        next_num = self.ui.list_client_list.count() + 1
+        self.__next_num = self.ui.list_client_list.count() + 1
         
         #build client detail to list widgets
-        self.client_detail = str(next_num) + ". " + form_first_name + " " + form_last_name + " selected option " + form_selected_service
+        self.__client_detail = str(self.__next_num) + ". " + form_first_name + " " + form_last_name + " selected option " + form_selected_service
 
         #add to list qwidget
-        self.ui.list_client_list.addItem(self.client_detail)
-        self.ui.client_list_edit_list.addItem(self.client_detail)
-        self.ui.client_list_delete_list.addItem(self.client_detail)
+        self.ui.list_client_list.addItem(self.__client_detail)
+        self.ui.client_list_edit_list.addItem(self.__client_detail)
+        self.ui.client_list_delete_list.addItem(self.__client_detail)
 
     def delete_client(self, selected_row):
         #get selected row
-        self.selected_row = selected_row        
+        self.__selected_row = selected_row        
 
-        self.ui.list_client_list.takeItem(int(self.selected_row))
-        self.ui.client_list_edit_list.takeItem(int(self.selected_row))
-        self.ui.client_list_delete_list.takeItem(int(self.selected_row))
+        self.ui.list_client_list.takeItem(int(self.__selected_row))
+        self.ui.client_list_edit_list.takeItem(int(self.__selected_row))
+        self.ui.client_list_delete_list.takeItem(int(self.__selected_row))
 
 
 class pandasModel(QAbstractTableModel):
