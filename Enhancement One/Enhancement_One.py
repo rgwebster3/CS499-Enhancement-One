@@ -25,8 +25,6 @@ from PyQt5.QtCore import QAbstractTableModel, Qt, QCoreApplication
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QDialog, QApplication
 from application_windows import Ui_MainWindow
-#from database_etl import *
-#from database_create import *
 
 class MainApplication(QtWidgets.QMainWindow): 
     
@@ -96,8 +94,8 @@ class MainApplication(QtWidgets.QMainWindow):
         self.__form_login_password = self.ui.login_text_password.text()
 
         #input validation
-        obj_inputvalidation = InputValidation(self.__form_login_username)
-        self.__check_punctuation = obj_inputvalidation.check_has_punctuation()
+        self.__obj_inputvalidation = InputValidation(self.__form_login_username)
+        self.__check_punctuation = self.__obj_inputvalidation.check_has_punctuation()
 
         if self.__check_punctuation == "True":            
             self.ui.login_label_login_denied.setHidden(False) #make label visible       
@@ -128,7 +126,7 @@ class MainApplication(QtWidgets.QMainWindow):
       
     def __form_main_menu_select(self):
         #get value from list widget
-        self.form_list_select = self.ui.menu_list.currentItem().text()
+        self.__form_list_select = self.ui.menu_list.currentItem().text()
 
         #check to see if an item is selected
         self.__items = self.ui.menu_list.selectedItems()
@@ -140,23 +138,23 @@ class MainApplication(QtWidgets.QMainWindow):
         if self.__selected_item: #boolean if not empty
 
             #execute based on menu selection
-            if self.form_list_select == "DISPLAY client list":
+            if self.__form_list_select == "DISPLAY client list":
                 #form navigation
                 self.__nav_client_list()                                     
 
-            elif self.form_list_select == "EDIT a client":
+            elif self.__form_list_select == "EDIT a client":
                 #form navigation
                 self.__nav_client_list_edit()
 
-            elif self.form_list_select == "ADD a new client":
+            elif self.__form_list_select == "ADD a new client":
                 #form navigation
                 self.__nav_add_client()                
 
-            elif self.form_list_select == "DELETE a client":
+            elif self.__form_list_select == "DELETE a client":
                 #form navigation
                 self.__nav_client_delete()  
 
-            elif self.form_list_select == "Exit the program":
+            elif self.__form_list_select == "Exit the program":
                 sys.exit()
         else:
             pass
