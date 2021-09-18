@@ -66,8 +66,7 @@ class MainApplication(QtWidgets.QMainWindow):
         self.ui.label_welcome.setHidden(True)
         self.ui.client_list_delete_enter_id.setHidden(True)
         self.ui.client_list_edit_enter_id.setHidden(True)
-        self.ui.login_text_username.selectAll()
-        self.ui.menu_list.setCurrentRow(0) 
+        self.ui.login_text_username.selectAll()        
 
         #initialize form
         self.__nav_login
@@ -117,6 +116,12 @@ class MainApplication(QtWidgets.QMainWindow):
                     #form navigation
                     self.__nav_main()
                     self.get_client_list()
+
+                    #set current row of list widgets
+                    self.ui.menu_list.setCurrentRow(0) 
+                    self.ui.list_client_list.setCurrentRow(0)
+                    self.ui.client_list_edit_list.setCurrentRow(0)
+                    self.ui.client_list_delete_list.setCurrentRow(0)
                 
                 else:
                     #access denied
@@ -250,7 +255,8 @@ class MainApplication(QtWidgets.QMainWindow):
 
         #add client to qlistwidget
         self.ui.client_edit_profile_list.clear()
-        self.__client_detail = str(self.__rec_id) + " " + self.__first_name + " " + self.__last_name + " selected option " +  self.__selected_service
+        self.__client_detail = str(self.__rec_id) + " " + self.__first_name + " " + self.__last_name + \
+            " selected option " +  self.__selected_service
 
         #add to list qwidget
         self.ui.client_edit_profile_list.addItem(self.__client_detail)
