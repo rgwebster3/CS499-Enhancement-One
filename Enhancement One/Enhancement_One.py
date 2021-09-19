@@ -7,9 +7,7 @@
 # 
 # Comments: 
 #
-# https://www.w3schools.com/python/python_classes.asp
-# https://betterprogramming.pub/advanced-python-9-best-practices-to-apply-when-you-define-classes-871a27af658b
-# https://www.youtube.com/watch?v=RSl87lqOXDE
+# Enhancement One
 #
 #******************************************************************
 
