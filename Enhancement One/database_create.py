@@ -59,6 +59,7 @@ class CreateDB(DBMakeConnection):
             self._DBMakeConnection__cursor.execute("INSERT INTO tbl_user_list VALUES ( Null, 'Crystal', 'Perales', 'cp1234', '123')")
             self._DBMakeConnection__cursor.execute("INSERT INTO tbl_user_list VALUES ( Null, 'Mariah', 'Rodriguez', 'mr1234', '123')")
             self._DBMakeConnection__cursor.execute("INSERT INTO tbl_user_list VALUES ( Null, 'Janis', 'Whitehead', 'jw1234', '123')")
+            self._DBMakeConnection__cursor.execute("INSERT INTO tbl_user_list VALUES ( Null, 'Hello', 'World', 'hh1234', '123')")
 
         #select and print records
         self._DBMakeConnection__cursor.execute("SELECT * FROM tbl_client_list")
